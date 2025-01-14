@@ -1,0 +1,57 @@
+.Filter-parent {
+    width: 100%;
+    height: 80px;  /* Increased height for better visibility */
+    padding: 20px;
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    overflow-x: auto; /* Enables horizontal scrolling */
+    scroll-behavior: smooth; /* Smooth scroll */
+    cursor: grab; /* Cursor when ready to grab */
+    white-space: nowrap; /* Prevent wrapping of child items */
+    user-select: none; /* Prevent text selection */
+}
+
+/* Hide the scrollbar */
+.Filter-parent::-webkit-scrollbar {
+    display: none; /* Hide scrollbar in WebKit-based browsers */
+}
+
+.Filter-parent {
+    scrollbar-width: none; /* Hide scrollbar in Firefox */
+}
+
+.Filter-parent:active {
+    cursor: grabbing; /* Cursor when actively dragging */
+}
+
+.Filter-active, .Filter-unactive {
+    min-width: 175px;
+    padding: 10px;
+    height: 55px;
+    flex-shrink: 0;
+    border-radius: 60px;
+    background: transparent;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    margin-right: 10px; /* Margin between items */
+}
+
+.Filter-active {
+    background: #000;
+}
+
+.Filter-active p, .Filter-unactive p {
+    color: #FFF;
+    font-family: "Poppins", serif;
+    font-size: 15px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+}
+
+.Filter-unactive p {
+    color: #000000;
+}

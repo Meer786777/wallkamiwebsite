@@ -1,0 +1,21 @@
+.Wall-parent {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(255px, 1fr));
+    gap: 20px;
+    padding: 30px; 
+    box-sizing: border-box; 
+    overflow: hidden; 
+}
+
+.wall-mbl {
+    width: 100%; 
+    height: 464px; 
+    object-fit: cover; 
+    border-radius: 25px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+.Wall-parent .img-parent:nth-child(4n+2), 
+.Wall-parent .img-parent:nth-child(4n+4) {
+    margin-top: 15px;
+}
