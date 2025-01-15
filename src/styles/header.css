@@ -78,3 +78,123 @@
     font-family: "Poppins", serif;
     height: 100%;
 }
+
+/* Responsive for small devices */
+@media (max-width: 600px) {
+    .headerbg {
+        height: 400px; /* Smaller height for mobile */
+    }
+
+    .nav-logo {
+        font-size: 24px; /* Adjust logo font size */
+        margin-top: 10px;
+        margin-left: 10px;
+    }
+
+    .H-h1 {
+        font-size: 22px; /* Smaller heading for mobile */
+        width: 90%; /* Make width more flexible */
+    }
+
+    .header-serach-parent {
+        margin-top: 150px;
+    }
+
+    .serach {
+        width: 90%; /* Make search bar width responsive */
+        height: 45px;
+    }
+
+    .serach-btn {
+        width: 40px;
+        height: 40px;
+    }
+
+    .scg-serach {
+        width: 20px;
+        height: 20px;
+    }
+
+    .inp {
+        font-size: 15px; /* Reduce input font size for mobile */
+    }
+}
+
+/* Responsive for medium devices */
+@media (max-width: 768px) {
+    .headerbg {
+        height: 500px; /* Adjust height for tablets */
+    }
+
+    .nav-logo {
+        font-size: 28px; /* Adjust logo font size */
+        margin-top: 15px;
+        margin-left: 15px;
+    }
+
+    .H-h1 {
+        font-size: 24px; /* Adjust heading size */
+        width: 80%;
+    }
+
+    .header-serach-parent {
+        margin-top: 180px;
+    }
+
+    .serach {
+        width: 80%; /* Adjust search bar width */
+        height: 48px;
+    }
+
+    .serach-btn {
+        width: 42px;
+        height: 42px;
+    }
+
+    .scg-serach {
+        width: 22px;
+        height: 22px;
+    }
+
+    .inp {
+        font-size: 16px; /* Adjust input font size */
+    }
+}
+
+/* Responsive for large devices */
+@media (min-width: 1024px) {
+    .headerbg {
+        height: 600px; /* Keep default height */
+    }
+
+    .nav-logo {
+        font-size: 32px; /* Logo font size for larger screens */
+    }
+
+    .H-h1 {
+        font-size: 26px; /* Heading font size for larger screens */
+    }
+
+    .header-serach-parent {
+        margin-top: 200px;
+    }
+
+    .serach {
+        width: 631px; /* Keep search bar width as default */
+        height: 50px;
+    }
+
+    .serach-btn {
+        width: 45px;
+        height: 45px;
+    }
+
+    .scg-serach {
+        width: 24px;
+        height: 24px;
+    }
+
+    .inp {
+        font-size: 17px; /* Keep input font size as default */
+    }
+}

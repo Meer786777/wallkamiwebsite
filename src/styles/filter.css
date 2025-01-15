@@ -6,6 +6,7 @@
     justify-content: start;
     align-items: center;
     overflow-x: auto; /* Enables horizontal scrolling */
+    overflow-y: hidden; /* Disables vertical scrolling */
     scroll-behavior: smooth; /* Smooth scroll */
     cursor: grab; /* Cursor when ready to grab */
     white-space: nowrap; /* Prevent wrapping of child items */
@@ -54,4 +55,55 @@
 
 .Filter-unactive p {
     color: #000000;
+}
+
+/* Responsive for small devices */
+@media (max-width: 600px) {
+    .Filter-parent {
+        padding: 10px;
+        height: 60px;
+    }
+
+    .Filter-active, .Filter-unactive {
+        min-width: 140px;
+        height: 50px;
+    }
+
+    .Filter-active p, .Filter-unactive p {
+        font-size: 14px;
+    }
+}
+
+/* Responsive for medium devices */
+@media (max-width: 768px) {
+    .Filter-parent {
+        padding: 15px;
+        height: 70px;
+    }
+
+    .Filter-active, .Filter-unactive {
+        min-width: 160px;
+        height: 50px;
+    }
+
+    .Filter-active p, .Filter-unactive p {
+        font-size: 15px;
+    }
+}
+
+/* Responsive for large devices */
+@media (min-width: 1024px) {
+    .Filter-parent {
+        padding: 20px;
+        height: 80px;
+    }
+
+    .Filter-active, .Filter-unactive {
+        min-width: 175px;
+        height: 55px;
+    }
+
+    .Filter-active p, .Filter-unactive p {
+        font-size: 16px;
+    }
 }
