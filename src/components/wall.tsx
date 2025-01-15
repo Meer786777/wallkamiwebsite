@@ -1,22 +1,24 @@
 import React, { useState, useEffect } from 'react';
 import '../styles/wall.css';
+import titles from '../assets/titles.tsx'; // Import the titles object
 
 interface Image {
     src: string;
     alt: string;
     attempts: number;
     loaded: boolean;
+    title: string | null; // Title can be string or null
 }
 
 interface WallProps {
-    activeFilter: string; // Accept activeFilter as a prop
+    activeFilter: string;
 }
 
 function Wall({ activeFilter }: WallProps) {
     const totalImages = 50;
     const initialBatchSize = 30;
     const loadMoreBatchSize = 10;
-    const maxVisibleImages = 30; // Maximum number of images visible at a time
+    const maxVisibleImages = 30;
     const maxFailedAttempts = 3;
 
     const [loading, setLoading] = useState(true);
@@ -33,26 +35,30 @@ function Wall({ activeFilter }: WallProps) {
         }
     };
 
-    // Load images based on the active filter
     useEffect(() => {
         const newImages: Image[] = [];
         const folder = activeFilter === 'Featured' ? 'Featured' : 'Goku';
 
+        // Modify filename generation logic based on filter
         for (let i = 0; i < imagesToLoad; i++) {
+            const filename = activeFilter === 'Featured'
+                ? `Featured(${i + 1}).jpeg`  // For Featured images
+                : `Goku(${i + 1}).jpeg`;  // For Goku images
+            const title = titles[filename] || null; // If no title, set it to null
+
             newImages.push({
-                src: `https://raw.githubusercontent.com/Meer786777/wallkamiFolder1/main/${folder}/${folder}(${i + 1}).jpeg`,
+                src: `https://raw.githubusercontent.com/Meer786777/wallkamiFolder1/main/${folder}/${filename}`,
                 alt: `${folder} ${i + 1}`,
                 attempts: 0,
                 loaded: false,
+                title: title, // Attach the title (null if not available)
             });
         }
 
-        // Shuffle images if the filter is "Featured"
         if (activeFilter === 'Featured') {
             shuffleArray(newImages);
         }
 
-        // Add new images and remove older ones if needed
         setImages((prevImages) => {
             const updatedImages = [...prevImages, ...newImages];
             if (updatedImages.length > maxVisibleImages) {
@@ -142,6 +148,12 @@ function Wall({ activeFilter }: WallProps) {
                                         </defs>
                                     </svg>
                                 </div>
+                                {/* Render the title only if it exists */}
+                                {image.title && (
+                                    <div className="title-parent">
+                                        <p>{image.title}</p>
+                                    </div>
+                                )}
                             </div>
                         )}
                     </div>

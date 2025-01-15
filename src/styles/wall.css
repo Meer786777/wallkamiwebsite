@@ -14,7 +14,8 @@
     height: 464px;
     border-radius: 25px;
     position: relative;
-    overflow: hidden; /* Ensures the image scales within its container */
+    overflow: hidden;
+    /* Ensures the image scales within its container */
 }
 
 .loader {
@@ -37,11 +38,13 @@
     object-fit: cover;
     border-radius: 25px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease; /* Smooth transition for scaling */
+    transition: transform 0.3s ease;
+    /* Smooth transition for scaling */
 }
 
 .wall-mbl:hover {
-    transform: scale(1.05); /* Scale the image to 1.05x when hovered */
+    transform: scale(1.05);
+    /* Scale the image to 1.05x when hovered */
 }
 
 .Wall-parent .img-parent:nth-child(4n+2),
@@ -66,7 +69,8 @@
 .image-wrapper:hover .download-btn {
     display: flex;
 }
-.load-more-btn{
+
+.load-more-btn {
     min-width: 175px;
     padding: 10px;
     height: 55px;
@@ -77,12 +81,14 @@
     justify-content: center;
     align-items: center;
     cursor: pointer;
-    margin-right: 10px; /* Margin between items */
+    margin-right: 10px;
+    /* Margin between items */
     justify-self: center;
     align-self: center;
     margin-bottom: 5px;
 }
-.load-more-btn p{
+
+.load-more-btn p {
     color: #FFF;
     font-family: "Poppins", serif;
     font-size: 15px;
@@ -91,10 +97,38 @@
     line-height: normal;
 }
 
+.title-parent p {
+    color: #FFF;
+    font-family: "Poppins", serif;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+.title-parent {
+    display: none;
+    width: 208px;
+    height: auto;
+    padding: 15px;
+    flex-shrink: 0;
+    border-radius: 17px;
+    background: linear-gradient(0deg, rgba(0, 0, 0, 0.20) 0%, rgba(0, 0, 0, 0.20) 100%), linear-gradient(0deg, rgba(0, 0, 0, 0.20) 0%, rgba(0, 0, 0, 0.20) 100%), rgba(0, 0, 0, 0.20);
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%); /* Center horizontally */
+}
+.image-wrapper:hover .title-parent {
+    display: flex;
+}
+
+
+
 /* Responsive for tablets (max-width: 768px) */
 @media (max-width: 768px) {
     .Wall-parent {
-        padding: 20px; /* Reduce padding for smaller screens */
+        padding: 20px;
+        /* Reduce padding for smaller screens */
     }
 
     .Wall-parent .img-parent:nth-child(4n+2),
@@ -103,33 +137,41 @@
     }
 
     .image-wrapper {
-        width: 100%; /* Make images take full width */
-        height: auto; /* Adjust height automatically */
+        width: 100%;
+        /* Make images take full width */
+        height: auto;
+        /* Adjust height automatically */
     }
 
     .wall-mbl {
-        height: auto; /* Maintain aspect ratio */
+        height: auto;
+        /* Maintain aspect ratio */
     }
 }
 
 /* Responsive for smaller devices (max-width: 480px) */
 @media (max-width: 480px) {
+
     .Wall-parent .img-parent:nth-child(4n+2),
     .Wall-parent .img-parent:nth-child(4n+4) {
         margin-top: 5px;
     }
 
     .image-wrapper {
-        width: 100%; /* Ensure full width for images */
-        height: auto; /* Adjust height dynamically */
+        width: 100%;
+        /* Ensure full width for images */
+        height: auto;
+        /* Adjust height dynamically */
     }
 
     .wall-mbl {
-        height: auto; /* Keep the aspect ratio */
+        height: auto;
+        /* Keep the aspect ratio */
     }
 
     .download-btn {
-        width: 35px; /* Smaller download button on mobile */
+        width: 35px;
+        /* Smaller download button on mobile */
         height: 35px;
     }
 }
