@@ -15,11 +15,18 @@ interface WallProps {
 }
 
 function Wall({ activeFilter }: WallProps) {
-    const totalImages = 50;
+    // Set different total images for each filter
+    const filterImageCounts = {
+        Featured: 50,
+        Goku: 60,
+        Minimalist: 72,
+    };
+
     const initialBatchSize = 30;
     const loadMoreBatchSize = 10;
-    const maxVisibleImages = 30;
     const maxFailedAttempts = 3;
+
+    const totalImages = filterImageCounts[activeFilter] || 0; // Get the total number of images based on the active filter
 
     const [loading, setLoading] = useState(true);
     const [showImages, setShowImages] = useState(false);
@@ -35,15 +42,33 @@ function Wall({ activeFilter }: WallProps) {
         }
     };
 
+    // Clear images when the active filter changes
     useEffect(() => {
+        setImages([]); // Empty images array when the filter changes
+        setLoading(true); // Show loading state when filter is changed
+
+        // Simulate loading time (7 seconds)
+        setTimeout(() => {
+            setLoading(false);
+            setShowImages(true);
+        }, 7000); // Simulate a 7-second load time
+
         const newImages: Image[] = [];
-        const folder = activeFilter === 'Featured' ? 'Featured' : 'Goku';
+        const folder =
+            activeFilter === 'Featured' ? 'Featured' :
+            activeFilter === 'Goku' ? 'Goku' :
+            activeFilter === 'Minimalist' ? 'minimalist' : ''; // Handle 'Minimalist' folder
 
         // Modify filename generation logic based on filter
-        for (let i = 0; i < imagesToLoad; i++) {
+        for (let i = 0; i < Math.min(imagesToLoad, totalImages); i++) { // Use min to ensure you don’t exceed available images
             const filename = activeFilter === 'Featured'
                 ? `Featured(${i + 1}).jpeg`  // For Featured images
-                : `Goku(${i + 1}).jpeg`;  // For Goku images
+                : activeFilter === 'Goku'
+                ? `Goku(${i + 1}).jpeg`  // For Goku images
+                : activeFilter === 'Minimalist'
+                ? `minimalist(${i + 1}).png`  // For Minimalist images
+                : '';
+
             const title = titles[filename] || null; // If no title, set it to null
 
             newImages.push({
@@ -56,27 +81,12 @@ function Wall({ activeFilter }: WallProps) {
         }
 
         if (activeFilter === 'Featured') {
-            shuffleArray(newImages);
+            shuffleArray(newImages); // Shuffle images for Featured filter
         }
 
-        setImages((prevImages) => {
-            const updatedImages = [...prevImages, ...newImages];
-            if (updatedImages.length > maxVisibleImages) {
-                return updatedImages.slice(updatedImages.length - maxVisibleImages);
-            }
-            return updatedImages;
-        });
+        setImages(newImages); // Update the images state with the new images for the current filter
 
-    }, [activeFilter, imagesToLoad]);
-
-    useEffect(() => {
-        const timer = setTimeout(() => {
-            setLoading(false);
-            setShowImages(true);
-        }, 7000);
-
-        return () => clearTimeout(timer);
-    }, []);
+    }, [activeFilter, imagesToLoad, totalImages]); // Re-run effect when filter changes
 
     const handleImageLoad = (index: number) => {
         setImages((prevImages) =>
@@ -100,6 +110,13 @@ function Wall({ activeFilter }: WallProps) {
     const loadMoreImages = () => {
         if (imagesToLoad + loadMoreBatchSize <= totalImages) {
             setImagesToLoad((prev) => prev + loadMoreBatchSize);
+
+            // Remove the top 10 images to ensure only 30 images are visible
+            setImages((prevImages) => {
+                const remainingImages = prevImages.slice(10); // Remove top 10 images
+                const newImages = [...remainingImages]; // Add the new batch
+                return newImages;
+            });
         } else {
             setEndReached(true);
         }
