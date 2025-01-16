@@ -45,22 +45,26 @@ function Wall({ activeFilter }: WallProps) {
     // Clear images when the active filter changes
     useEffect(() => {
         setImages([]); // Empty images array when the filter changes
+        setImagesToLoad(initialBatchSize); // Reset to initial batch size for the new filter
+        setEndReached(false); // Reset end reached status
+
         setLoading(true); // Show loading state when filter is changed
+        setShowImages(false); // Hide images while loading
 
         // Simulate loading time (7 seconds)
         setTimeout(() => {
-            setLoading(false);
-            setShowImages(true);
-        }, 7000); // Simulate a 7-second load time
+            setLoading(false); // Set loading to false after timeout
+            setShowImages(true); // Show images after loading
+        }, 7000);
 
         const newImages: Image[] = [];
         const folder =
             activeFilter === 'Featured' ? 'Featured' :
             activeFilter === 'Goku' ? 'Goku' :
-            activeFilter === 'Minimalist' ? 'minimalist' : ''; // Handle 'Minimalist' folder
+            activeFilter === 'Minimalist' ? 'minimalist' : '';
 
         // Modify filename generation logic based on filter
-        for (let i = 0; i < Math.min(imagesToLoad, totalImages); i++) { // Use min to ensure you don’t exceed available images
+        for (let i = 0; i < Math.min(imagesToLoad, totalImages); i++) { // Ensure you don't exceed available images
             const filename = activeFilter === 'Featured'
                 ? `Featured(${i + 1}).jpeg`  // For Featured images
                 : activeFilter === 'Goku'
@@ -80,13 +84,11 @@ function Wall({ activeFilter }: WallProps) {
             });
         }
 
-        if (activeFilter === 'Featured') {
-            shuffleArray(newImages); // Shuffle images for Featured filter
-        }
+        shuffleArray(newImages);
 
         setImages(newImages); // Update the images state with the new images for the current filter
 
-    }, [activeFilter, imagesToLoad, totalImages]); // Re-run effect when filter changes
+    }, [activeFilter]); // Re-run effect when the filter changes
 
     const handleImageLoad = (index: number) => {
         setImages((prevImages) =>
@@ -110,17 +112,46 @@ function Wall({ activeFilter }: WallProps) {
     const loadMoreImages = () => {
         if (imagesToLoad + loadMoreBatchSize <= totalImages) {
             setImagesToLoad((prev) => prev + loadMoreBatchSize);
-
-            // Remove the top 10 images to ensure only 30 images are visible
-            setImages((prevImages) => {
-                const remainingImages = prevImages.slice(10); // Remove top 10 images
-                const newImages = [...remainingImages]; // Add the new batch
-                return newImages;
-            });
+    
+            const newImages: Image[] = [];
+            const folder =
+                activeFilter === 'Featured' ? 'Featured' :
+                activeFilter === 'Goku' ? 'Goku' :
+                activeFilter === 'Minimalist' ? 'minimalist' : '';
+    
+            // Add only the next batch of images to the new array
+            for (let i = imagesToLoad; i < Math.min(imagesToLoad + loadMoreBatchSize, totalImages); i++) {
+                const filename = activeFilter === 'Featured'
+                    ? `Featured(${i + 1}).jpeg`
+                    : activeFilter === 'Goku'
+                    ? `Goku(${i + 1}).jpeg`
+                    : activeFilter === 'Minimalist'
+                    ? `minimalist(${i + 1}).png`
+                    : '';
+    
+                const title = titles[filename] || null; // If no title, set it to null
+    
+                newImages.push({
+                    src: `https://raw.githubusercontent.com/Meer786777/wallkamiFolder1/main/${folder}/${filename}`,
+                    alt: `${folder} ${i + 1}`,
+                    attempts: 0,
+                    loaded: false,
+                    title: title,
+                });
+            }
+    
+            // Remove the first 10 images and add the new ones to the end
+            setImages((prevImages) => [
+                ...prevImages.slice(10),  // Remove the first 10 images
+                ...newImages,  // Add the new batch of images at the bottom
+            ]);
         } else {
             setEndReached(true);
         }
     };
+    
+    
+    
 
     const handleDownload = (src: string) => {
         fetch(src)
