@@ -1,16 +1,16 @@
 {
   "files": {
     "main.css": "/wallkamiwebsite/static/css/main.5a3bf9fb.css",
-    "main.js": "/wallkamiwebsite/static/js/main.406d5316.js",
+    "main.js": "/wallkamiwebsite/static/js/main.a061ef8e.js",
     "static/js/156.3f5944d8.chunk.js": "/wallkamiwebsite/static/js/156.3f5944d8.chunk.js",
     "static/media/headerbg.gif": "/wallkamiwebsite/static/media/headerbg.5830ccedbb1c9e05def3.gif",
     "index.html": "/wallkamiwebsite/index.html",
     "main.5a3bf9fb.css.map": "/wallkamiwebsite/static/css/main.5a3bf9fb.css.map",
-    "main.406d5316.js.map": "/wallkamiwebsite/static/js/main.406d5316.js.map",
+    "main.a061ef8e.js.map": "/wallkamiwebsite/static/js/main.a061ef8e.js.map",
     "156.3f5944d8.chunk.js.map": "/wallkamiwebsite/static/js/156.3f5944d8.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.5a3bf9fb.css",
-    "static/js/main.406d5316.js"
+    "static/js/main.a061ef8e.js"
   ]
 }
