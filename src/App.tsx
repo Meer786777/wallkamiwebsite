@@ -1,19 +1,18 @@
 import React, { useState } from 'react';
 import './App.css';
-import Header from './components/header.tsx';  // Adjusted import to match file naming
-import Filter from './components/fitler.tsx';  // Adjusted import to match file naming
-import Wall from './components/wall.tsx';  // Adjusted import to match file naming
+import Header from './components/header.tsx';
+import Filter from './components/fitler.tsx';
+import Wall from './components/wall.tsx';
 
 function App() {
-  // State to manage the active filter (Featured or Goku)
-  const [activeFilter, setActiveFilter] = useState('Featured'); // Default to 'Featured'
+  const [activeFilter, setActiveFilter] = useState('Featured'); // Default filter
+  const [searchQuery, setSearchQuery] = useState(''); // State for search query
 
   return (
     <>
-      <Header />
-      {/* Pass setActiveFilter to Filter component and activeFilter to Wall */}
+      <Header setSearchQuery={setSearchQuery} />
       <Filter setActiveFilter={setActiveFilter} />
-      <Wall activeFilter={activeFilter} />
+      <Wall activeFilter={activeFilter} searchQuery={searchQuery} />
     </>
   );
 }

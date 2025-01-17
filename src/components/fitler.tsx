@@ -11,7 +11,7 @@ function Filter({ setActiveFilter }) {
 
     return (
         <div className="Filter-parent">
-            {['Featured', 'Goku', 'Minimalist'].map((filter) => (  // Added 'Minimalist' here
+            {['Featured', 'Goku', 'Minimalist', 'Aesthetic Anime Girl'].map((filter) => ( // Added 'Aesthetic Anime Girl'
                 <div
                     key={filter}
                     className={`Filter-item ${activeFilterState === filter ? 'Filter-active' : 'Filter-unactive'}`}

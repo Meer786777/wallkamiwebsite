@@ -12,29 +12,28 @@ interface Image {
 
 interface WallProps {
     activeFilter: string;
+    searchQuery: string; // Added prop for search query
 }
 
-function Wall({ activeFilter }: WallProps) {
-    // Set different total images for each filter
+function Wall({ activeFilter, searchQuery }: WallProps) {
     const filterImageCounts = {
         Featured: 50,
         Goku: 60,
         Minimalist: 72,
+        'Aesthetic Anime Girl': 46,
     };
 
     const initialBatchSize = 30;
     const loadMoreBatchSize = 10;
     const maxFailedAttempts = 3;
 
-    const totalImages = filterImageCounts[activeFilter] || 0; // Get the total number of images based on the active filter
+    const totalImages = filterImageCounts[activeFilter] || 0;
 
     const [loading, setLoading] = useState(true);
-    const [showImages, setShowImages] = useState(false);
     const [images, setImages] = useState<Image[]>([]);
     const [imagesToLoad, setImagesToLoad] = useState(initialBatchSize);
     const [endReached, setEndReached] = useState(false);
 
-    // Shuffle function
     const shuffleArray = (array: Image[]) => {
         for (let i = array.length - 1; i > 0; i--) {
             const j = Math.floor(Math.random() * (i + 1));
@@ -42,53 +41,51 @@ function Wall({ activeFilter }: WallProps) {
         }
     };
 
-    // Clear images when the active filter changes
     useEffect(() => {
-        setImages([]); // Empty images array when the filter changes
-        setImagesToLoad(initialBatchSize); // Reset to initial batch size for the new filter
-        setEndReached(false); // Reset end reached status
-
-        setLoading(true); // Show loading state when filter is changed
-        setShowImages(false); // Hide images while loading
-
-        // Simulate loading time (7 seconds)
-        setTimeout(() => {
-            setLoading(false); // Set loading to false after timeout
-            setShowImages(true); // Show images after loading
-        }, 7000);
+        setLoading(true);
+        setImages([]);
+        setImagesToLoad(initialBatchSize);
+        setEndReached(false);
 
         const newImages: Image[] = [];
         const folder =
-            activeFilter === 'Featured' ? 'Featured' :
-            activeFilter === 'Goku' ? 'Goku' :
-            activeFilter === 'Minimalist' ? 'minimalist' : '';
-
-        // Modify filename generation logic based on filter
-        for (let i = 0; i < Math.min(imagesToLoad, totalImages); i++) { // Ensure you don't exceed available images
-            const filename = activeFilter === 'Featured'
-                ? `Featured(${i + 1}).jpeg`  // For Featured images
+            activeFilter === 'Featured'
+                ? 'Featured'
                 : activeFilter === 'Goku'
-                ? `Goku(${i + 1}).jpeg`  // For Goku images
+                ? 'Goku'
                 : activeFilter === 'Minimalist'
-                ? `minimalist(${i + 1}).png`  // For Minimalist images
+                ? 'minimalist'
+                : activeFilter === 'Aesthetic Anime Girl'
+                ? 'aestheticanimegirl'
                 : '';
 
-            const title = titles[filename] || null; // If no title, set it to null
+        for (let i = 0; i < Math.min(imagesToLoad, totalImages); i++) {
+            const filename =
+                activeFilter === 'Aesthetic Anime Girl'
+                    ? `animegirl(${i + 1}).png`
+                    : activeFilter === 'Featured'
+                    ? `Featured(${i + 1}).jpeg`
+                    : activeFilter === 'Goku'
+                    ? `Goku(${i + 1}).jpeg`
+                    : activeFilter === 'Minimalist'
+                    ? `minimalist(${i + 1}).png`
+                    : '';
+
+            const title = titles[filename] || null;
 
             newImages.push({
                 src: `https://raw.githubusercontent.com/Meer786777/wallkamiFolder1/main/${folder}/${filename}`,
                 alt: `${folder} ${i + 1}`,
                 attempts: 0,
                 loaded: false,
-                title: title, // Attach the title (null if not available)
+                title: title,
             });
         }
 
         shuffleArray(newImages);
-
-        setImages(newImages); // Update the images state with the new images for the current filter
-
-    }, [activeFilter]); // Re-run effect when the filter changes
+        setImages(newImages);
+        setTimeout(() => setLoading(false), 2000); // Adjusted loader timeout for smoother experience
+    }, [activeFilter]);
 
     const handleImageLoad = (index: number) => {
         setImages((prevImages) =>
@@ -112,25 +109,33 @@ function Wall({ activeFilter }: WallProps) {
     const loadMoreImages = () => {
         if (imagesToLoad + loadMoreBatchSize <= totalImages) {
             setImagesToLoad((prev) => prev + loadMoreBatchSize);
-    
+
             const newImages: Image[] = [];
             const folder =
-                activeFilter === 'Featured' ? 'Featured' :
-                activeFilter === 'Goku' ? 'Goku' :
-                activeFilter === 'Minimalist' ? 'minimalist' : '';
-    
-            // Add only the next batch of images to the new array
-            for (let i = imagesToLoad; i < Math.min(imagesToLoad + loadMoreBatchSize, totalImages); i++) {
-                const filename = activeFilter === 'Featured'
-                    ? `Featured(${i + 1}).jpeg`
+                activeFilter === 'Featured'
+                    ? 'Featured'
                     : activeFilter === 'Goku'
-                    ? `Goku(${i + 1}).jpeg`
+                    ? 'Goku'
                     : activeFilter === 'Minimalist'
-                    ? `minimalist(${i + 1}).png`
+                    ? 'minimalist'
+                    : activeFilter === 'Aesthetic Anime Girl'
+                    ? 'aestheticanimegirl'
                     : '';
-    
-                const title = titles[filename] || null; // If no title, set it to null
-    
+
+            for (let i = imagesToLoad; i < Math.min(imagesToLoad + loadMoreBatchSize, totalImages); i++) {
+                const filename =
+                    activeFilter === 'Aesthetic Anime Girl'
+                        ? `animegirl(${i + 1}).png`
+                        : activeFilter === 'Featured'
+                        ? `Featured(${i + 1}).jpeg`
+                        : activeFilter === 'Goku'
+                        ? `Goku(${i + 1}).jpeg`
+                        : activeFilter === 'Minimalist'
+                        ? `minimalist(${i + 1}).png`
+                        : '';
+
+                const title = titles[filename] || null;
+
                 newImages.push({
                     src: `https://raw.githubusercontent.com/Meer786777/wallkamiFolder1/main/${folder}/${filename}`,
                     alt: `${folder} ${i + 1}`,
@@ -139,19 +144,12 @@ function Wall({ activeFilter }: WallProps) {
                     title: title,
                 });
             }
-    
-            // Remove the first 10 images and add the new ones to the end
-            setImages((prevImages) => [
-                ...prevImages.slice(10),  // Remove the first 10 images
-                ...newImages,  // Add the new batch of images at the bottom
-            ]);
+
+            setImages((prevImages) => [...prevImages, ...newImages]);
         } else {
             setEndReached(true);
         }
     };
-    
-    
-    
 
     const handleDownload = (src: string) => {
         fetch(src)
@@ -169,13 +167,20 @@ function Wall({ activeFilter }: WallProps) {
             });
     };
 
+    const filteredImages = images.filter((image) =>
+        searchQuery.trim() === ''
+            ? true
+            : image.title?.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+
     return (
         <>
             <div className="Wall-parent">
-                {images.map((image, index) => (
-                    <div key={index} className="img-parent">
-                        {loading && !image.loaded && <div className="loader">Loading...</div>}
-                        {showImages && (
+                {loading ? (
+                    <div className="loader">Loading...</div>
+                ) : (
+                    filteredImages.map((image, index) => (
+                        <div key={index} className="img-parent">
                             <div className="image-wrapper">
                                 <img
                                     src={image.src}
@@ -185,7 +190,7 @@ function Wall({ activeFilter }: WallProps) {
                                     onError={() => handleImageError(index)}
                                 />
                                 <div className="download-btn" onClick={() => handleDownload(image.src)}>
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="23" height="23" viewBox="0 0 23 23" fill="none">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="23" height="23" viewBox="0 0 23 23" fill="none">
                                         <g clipPath="url(#clip0_40_3)">
                                             <path d="M11.5 16.7708L4.91145 10.1823L6.75625 8.27159L10.1823 11.6977V0.958313H12.8177V11.6977L16.2437 8.27159L18.0885 10.1823L11.5 16.7708ZM3.59375 22.0416C2.86901 22.0416 2.24858 21.7836 1.73248 21.2675C1.21638 20.7513 0.958328 20.131 0.958328 19.4062V15.4531H3.59375V19.4062H19.4062V15.4531H22.0417V19.4062C22.0417 20.131 21.7836 20.7513 21.2675 21.2675C20.7514 21.7836 20.131 22.0416 19.4062 22.0416H3.59375Z" fill="white" />
                                         </g>
@@ -196,18 +201,17 @@ function Wall({ activeFilter }: WallProps) {
                                         </defs>
                                     </svg>
                                 </div>
-                                {/* Render the title only if it exists */}
                                 {image.title && (
                                     <div className="title-parent">
                                         <p>{image.title}</p>
                                     </div>
                                 )}
                             </div>
-                        )}
-                    </div>
-                ))}
+                        </div>
+                    ))
+                )}
             </div>
-            {!endReached && imagesToLoad < totalImages && (
+            {!endReached && filteredImages.length < totalImages && (
                 <button onClick={loadMoreImages} className="load-more-btn">
                     <p>Load More</p>
                 </button>

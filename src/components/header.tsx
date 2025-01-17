@@ -1,25 +1,37 @@
 import React from 'react';
-import '../styles/header.css'
-function Header() {
-    return (
-        <>
-            <div className="headerbg">
-                <nav>
-                    <a href="#" className="nav-logo">WallKami.com</a>
-                </nav>
+import '../styles/header.css';
 
-                <div className="header-serach-parent">
-                    <h1 className="H-h1">Anime Art, Black & White Aesthetic — 25K+ Wallpapers to Choose From</h1>
-                    <div className="serach">
-                        <input type="text" className="inp" placeholder="Serach for free Wallpapers" />
-                        <button className="serach-btn"> <svg className="scg-serach" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-                            <path d="M17.2146 15.5642L17.2126 15.5616L17.2113 15.561L17.21 15.5597L17.2087 15.5584L17.2074 15.5571L17.2061 15.5558L17.2047 15.5545L17.2034 15.5532L17.2021 15.5519L17.2009 15.5506C17.1989 15.548 17.1996 15.5493 17.1996 15.5493C17.1976 15.5466 17.1983 15.548 17.1983 15.548C17.1963 15.5459 17.197 15.5466 17.197 15.5466C17.1944 15.5466 17.1957 15.5453 17.1957 15.5453L17.1944 15.5446L17.1931 15.5433L17.1918 15.542L17.1905 15.5407L17.1892 15.5395L17.1879 15.5382L17.1865 15.5369C17.1839 15.5349 17.1852 15.5356 17.1852 15.5356C17.1833 15.5336 17.1839 15.5343 17.1839 15.5343L17.1826 15.5336C17.1833 15.5317 17.1813 15.5317 17.1813 15.5317C17.1813 15.529 17.1794 15.5304 17.1794 15.5304L17.1781 15.529C16.7196 15.1083 16.0077 15.12 15.5642 15.5642C15.5251 15.6027 15.4899 15.6437 15.4573 15.6866C14.1177 16.969 12.3644 17.6731 10.5037 17.6731C8.5895 17.6731 6.78868 16.9274 5.43399 15.5733C4.07997 14.2186 3.33423 12.4178 3.33423 10.5037C3.33423 8.49051 4.18873 6.55748 5.67888 5.20084C7.00035 3.99725 8.71389 3.33423 10.5037 3.33423C12.0869 3.33423 13.5881 3.83964 14.8439 4.79574C16.6421 6.16605 17.6731 8.24693 17.6731 10.5037C17.6731 10.912 17.6386 11.3204 17.5708 11.717L19.8725 12.1091C19.9617 11.5828 20.0073 11.0429 20.0073 10.5037C20.0073 7.51227 18.6409 4.75535 16.2584 2.9389C14.5925 1.67083 12.6028 1 10.5037 1C8.13099 1 5.85929 1.87925 4.10731 3.47492C2.1326 5.27313 1 7.83467 1 10.5037C1 13.0418 1.98866 15.4281 3.78362 17.2237C5.57924 19.0186 7.96557 20.0073 10.5037 20.0073C12.649 20.0073 14.6856 19.3013 16.3483 17.9994L21.3496 23L23 21.3496L17.2146 15.5642Z" fill="white" />
-                        </svg></button>
-                    </div>
-                </div>
-            </div>
-        </>
-    );
+function Header({ setSearchQuery }) {
+  const handleSearchChange = (event) => {
+    setSearchQuery(event.target.value); // Update search query state
+  };
+
+  return (
+    <>
+      <div className="headerbg">
+        <nav>
+          <a href="#" className="nav-logo">WallKami.com</a>
+        </nav>
+
+        <div className="header-serach-parent">
+          <h1 className="H-h1">Anime Art, Black & White Aesthetic — 25K+ Wallpapers to Choose From</h1>
+          <div className="serach">
+            <input
+              type="text"
+              className="inp"
+              placeholder="Search for free Wallpapers"
+              onChange={handleSearchChange}
+            />
+            {/* <button className="serach-btn">
+              <svg className="scg-serach" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                <path d="..." fill="white" />
+              </svg>
+            </button> */}
+          </div>
+        </div>
+      </div>
+    </>
+  );
 }
 
 export default Header;
