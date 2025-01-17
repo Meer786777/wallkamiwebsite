@@ -109,7 +109,7 @@ function Wall({ activeFilter, searchQuery }: WallProps) {
     const loadMoreImages = () => {
         if (imagesToLoad + loadMoreBatchSize <= totalImages) {
             setImagesToLoad((prev) => prev + loadMoreBatchSize);
-
+    
             const newImages: Image[] = [];
             const folder =
                 activeFilter === 'Featured'
@@ -121,7 +121,7 @@ function Wall({ activeFilter, searchQuery }: WallProps) {
                     : activeFilter === 'Aesthetic Anime Girl'
                     ? 'aestheticanimegirl'
                     : '';
-
+    
             for (let i = imagesToLoad; i < Math.min(imagesToLoad + loadMoreBatchSize, totalImages); i++) {
                 const filename =
                     activeFilter === 'Aesthetic Anime Girl'
@@ -133,9 +133,9 @@ function Wall({ activeFilter, searchQuery }: WallProps) {
                         : activeFilter === 'Minimalist'
                         ? `minimalist(${i + 1}).png`
                         : '';
-
+    
                 const title = titles[filename] || null;
-
+    
                 newImages.push({
                     src: `https://raw.githubusercontent.com/Meer786777/wallkamiFolder1/main/${folder}/${filename}`,
                     alt: `${folder} ${i + 1}`,
@@ -144,12 +144,20 @@ function Wall({ activeFilter, searchQuery }: WallProps) {
                     title: title,
                 });
             }
-
-            setImages((prevImages) => [...prevImages, ...newImages]);
+    
+            // Remove the first 10 images from the top if the total number of images exceeds 30
+            setImages((prevImages) => {
+                const updatedImages = [...prevImages, ...newImages];
+                if (updatedImages.length > 30) {
+                    updatedImages.splice(0, 10); // Remove 10 from the top
+                }
+                return updatedImages;
+            });
         } else {
             setEndReached(true);
         }
     };
+    
 
     const handleDownload = (src: string) => {
         fetch(src)
